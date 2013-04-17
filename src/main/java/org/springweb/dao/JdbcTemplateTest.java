@@ -1,4 +1,4 @@
-package org.springweb.data;
+package org.springweb.dao;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

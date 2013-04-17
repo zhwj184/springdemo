@@ -1,4 +1,4 @@
-package org.springweb.data;
+package org.springweb.dao;
 
 public class Dataobject{
 	private Integer a;

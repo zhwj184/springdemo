@@ -1,4 +1,4 @@
-package org.springweb.data;
+package org.springweb.dao;
 
 import java.util.HashMap;
 import java.util.Map;

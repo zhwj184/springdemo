@@ -14,9 +14,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
-import org.springweb.data.Dataobject;
-import org.springweb.data.JdbcTemplateTest;
-import org.springweb.data.MyIbatisTest;
+import org.springweb.dao.Dataobject;
+import org.springweb.dao.JdbcTemplateTest;
+import org.springweb.dao.MyIbatisTest;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;

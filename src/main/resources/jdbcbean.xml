@@ -63,7 +63,7 @@ http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 		</constructor-arg>
 	</bean>
 
-	<bean id="jdbctest" class="org.springweb.data.JdbcTemplateTest" />
+	<bean id="jdbctest" class="org.springweb.dao.JdbcTemplateTest" />
 
 
 	<bean id="nameParamTemplate"
@@ -73,7 +73,7 @@ http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 			<ref bean="jdbcTemplate" />
 		</constructor-arg>
 	</bean>
-	<bean id="nameParameterJdbcTemplateTest" class="org.springweb.data.NameParameterJdbcTemplateTest" />
+	<bean id="nameParameterJdbcTemplateTest" class="org.springweb.dao.NameParameterJdbcTemplateTest" />
 
 
 	<!-- ibatis -->
@@ -89,7 +89,7 @@ http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 			<ref local="dbcpDataSource" />
 		</property>
 	</bean>
-	<bean id="myIbatisTest" class="org.springweb.data.MyIbatisTest">
+	<bean id="myIbatisTest" class="org.springweb.dao.MyIbatisTest">
 		<property name="dataSource" ref="dbcpDataSource" />
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>

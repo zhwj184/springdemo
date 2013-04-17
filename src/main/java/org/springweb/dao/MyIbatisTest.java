@@ -1,4 +1,4 @@
-package org.springweb.data;
+package org.springweb.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
