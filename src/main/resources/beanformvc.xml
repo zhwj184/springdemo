@@ -103,7 +103,7 @@ http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	
 	<!--  --><import resource="merger.xml"/>
 	
-	<!-- -->
+	<!--  -->
 	<bean id="remoteReadServicepostProcessor" 
 		class="org.springweb.service.impl.RemoteReadServiceImpl" scope="singleton" >
 		<property name="url" value="${database.url}"></property>
