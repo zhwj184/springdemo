@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="test">
+    <!-- typeAlias -->
+    <typeAlias alias="dataobject" type="org.springweb.data.Dataobject" />
+    <!-- resultMap -->
+    <resultMap id="TA-dataobject" class="dataobject">
+        <result column="a"             property="a"           jdbcType="NUMERIC"      javaType="int"/>
+        <result column="b"             property="b"          jdbcType="VARCHAR"      javaType="string"/>
+    </resultMap>
+
+    <insert id="insert"  parameterClass="dataobject">
+        insert into mytable values(#a#,#b#)   
+     </insert>
+
+    <select id="query"  resultMap="TA-dataobject" parameterClass="java.util.Map">
+        select a, b from mytable 
+ 		<dynamic prepend="where">
+            <isNotNull prepend="and" property="a">
+                a = #a#
+            </isNotNull>
+            <isNotNull prepend="and" property="b">
+                b = #b#
+            </isNotNull>
+         </dynamic>
+    </select>
+   <update id="update" parameterClass="java.util.Map">
+        update mytable set b = #b#
+        <dynamic>
+            <isNotNull prepend="," property="a">
+                a = #a#
+            </isNotNull>
+           </dynamic>
+    </update>
+   
+    <delete id="delete" parameterClass="java.util.Map">
+       delete from mytable where
+                a = #a# and b = #b#
+    </delete>
+
+
+</sqlMap>

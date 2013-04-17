@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName" default-lazy-init="false" default-dependency-check="none">
+    <bean id="oraclelpsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.alibaba.druid.proxy.DruidDriver" />
+        <property name="url" value="jdbc:wrap-jdbc:filters=stat,encoding:name=com.alibaba.dragoon.master:${industry.datasource.olps.url}" />
+        <property name="username" value="${industry.datasource.olps.username}" />
+        <property name="password">
+            <bean class="com.alibaba.china.biz.common.security.EncryptDBPasswordFactory">
+                <property name="password" value="${industry.datasource.olps.password.encrypted}" />
+            </bean>
+        </property>
+        <property name="maxActive" value="32" />
+        <property name="initialSize" value="1" />
+        <property name="maxWait" value="60000" />
+        <property name="maxIdle" value="32" />
+        <property name="minIdle" value="5" />
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="180" />
+        <property name="connectionProperties" value="bigStringTryClob=true;clientEncoding=GBK;defaultRowPrefetch=50;serverEncoding=ISO-8859-1" />
+        <property name="timeBetweenEvictionRunsMillis"><value>60000</value></property>
+        <property name="minEvictableIdleTimeMillis"><value>1800000</value></property>
+    </bean>
+
+    <!-- tddl mysql datasource -->
+    <bean id="mysqlDataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
+        <property name="appName" value="${industry.mysql.appname}" />
+        <property name="dbGroupKey" value="${industry.mysql.groupkey}" />
+    </bean>
+    <bean id="oraclelpsTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource">
+            <ref local="oraclelpsDataSource" />
+        </property>
+    </bean>
+
+    <bean id="oraclelpsTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="oraclelpsTransactionManager" />
+    </bean>
+
+    <bean id="oraclelpsTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <property name="transactionManager">
+            <ref local="oraclelpsTransactionManager" />
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="insert">PROPAGATION_REQUIRED</prop>
+                <prop key="update">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="oraclelpsSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <bean class="org.springframework.core.io.ClassPathResource">
+                <constructor-arg>
+                    <value>/ibatis/sqlmap-config.xml</value>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="dataSource">
+            <ref local="oraclelpsDataSource" />
+        </property>
+    </bean>
+    <bean id="mysqlSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <bean class="org.springframework.core.io.ClassPathResource">
+                <constructor-arg>
+                    <value>/ibatis/mysql-sqlmap-config.xml</value>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="dataSource">
+            <ref local="mysqlDataSource" />
+        </property>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mysqlDataSource"/>
+	</bean>
+	
+	<!-- 程序控制的transaction的定义。 -->
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate"/>
+	<!-- Declarative transaction的定义。 -->
+	<bean id="baseTransactionProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
+		<property name="transactionManager" ref="transactionManager"/>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

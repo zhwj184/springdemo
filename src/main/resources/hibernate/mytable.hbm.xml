@@ -1,0 +1,15 @@
+<?xml version="1.0"?> 
+<!DOCTYPE hibernate-mapping PUBLIC  
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+ 
+<hibernate-mapping package="org.springweb.data"> 
+ 
+    <class name="Dataobject"  table="MYTABLE"> 
+        <id name="a" type="java.lang.Integer" column="a"> 
+        </id> 
+        <property name="b" type="java.lang.String" column="b"> 
+        </property>     
+    </class> 
+ 
+</hibernate-mapping> 

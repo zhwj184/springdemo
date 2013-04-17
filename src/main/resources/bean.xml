@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byType"  
+	default-lazy-init="false"  default-merge="true" >
+
+	<!-- 向 Spring 容器注册AutowiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor 以及 RequiredAnnotationBeanPostProcessor 这 4 个BeanPostProcessor。 -->
+	<!-- --> <context:annotation-config/>
+
+	<!-- 扫描 某个包下的类，有@component注解的类添加到容器进行管理 -->
+	<!-- <context:component-scan base-package="cn.spring21.project.base.package" /> -->
+
+	<!-- <alias name="" alias=""/> -->
+
+	<!-- depends-on="configSetup" autowire="byName" singleton和prototype request、session和global 
+		session类  abstract=true  depends-on="messageSource"-->
+	<bean id="remoteReadService"  name="remoteReadService"
+		class="org.springweb.service.impl.RemoteReadServiceImpl" scope="singleton" />
+		
+	<!-- parent -->
+	<bean id="remoteReadServicesingle" name="remoteReadServicesingle"
+		class="org.springweb.service.impl.RemoteReadServiceImpl" scope="prototype"   lazy-init="true" >
+		</bean>
+
+<!-- init-method="init"  destroy-method="destroy"
+	<bean id="helloService" name="helloServiceName"
+		class="org.springweb.service.impl.HelloServiceImpl" >
+		<constructor-arg type="String" index="0"
+			value="welcome to Canada">
+		</constructor-arg> 
+		<constructor-arg type="Map" index="1">
+			<map>
+				<entry key="1">
+					<value>COO</value>
+				</entry>
+				<entry key="2">
+					<value>CFO</value>
+				</entry>
+				<entry key="3">
+					<value>CEO</value>
+				</entry>
+			</map>
+		</constructor-arg>
+		  <property name="remoteReadService" ref="remoteReadService"></property>
+	</bean> -->
+
+	<!-- -->
+	<bean id="helloService" name="helloService"
+		class="org.springweb.service.impl.HelloServiceImpl" scope="prototype">
+		<property name="greetting">
+			<value>welcome to Canada</value>
+		</property>
+		<property name="typeMap">
+			<map key-type="java.lang.Integer" value-type="java.lang.String">
+				<entry key="1">
+					<value>COO)</value>
+				</entry>
+				<entry key="2">
+					<value>CFO</value>
+				</entry>
+				<entry key="3">
+					<value>CEO</value>
+				</entry>
+			</map>
+		</property>
+		
+	</bean>
+	
+
+
+	<!-- 静态工厂方法（Static Factory Method） -->
+	<bean id="helloService1" class="org.springweb.ioc.StaticHelloInterfaceFactory"
+		factory-method="getInstance" />
+
+	<!-- 非静态工厂方法（Instance Factory Method） <bean id="barFactory" class="...NonStaticBarInterfaceFactory"/> 
+		<bean id="bar" factory-bean="barFactory" factory-method="getInstance"/> -->
+
+	<!-- factory bean <bean id="nextDayDateDisplayer" class="...NextDayDateDisplayer"> 
+		<property name="dateOfNextDay"> <ref bean="nextDayDate"/> </property> </bean> 
+		<bean id="nextDayDate" class="org.springweb.ioc.NextDayDateFactoryBean"> 
+		</bean> -->
+
+	<!-- BeanFactoryAware 自定义操作beanfactory 
+	<bean id="mockNewsPersister" class="org.springweb.ioc.MockNewsPersister"></bean>-->
+
+	<!-- MethodReplacer 方法替换 -->
+
+	<!-- BeanFactoryPostProcessor -->
+		<bean id="placeholder"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+		<property name="locations">
+			<list>
+			</list>
+		</property>
+	</bean> 
+	
+	<!--  --><import resource="merger.xml"/>
+	
+	<!-- -->
+	<bean id="remoteReadServicepostProcessor" 
+		class="org.springweb.service.impl.RemoteReadServiceImpl" scope="singleton" >
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+	</bean> 
+
+	<!-- CustomEditorConfigurer -->
+	<!-- applicationcontext .ResourceLoaderAware 。ApplicationEventPublisherAwar 
+		eMessageSourceAware ApplicationContextAware  -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+				<value>errorcodes</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

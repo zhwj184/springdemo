@@ -1,0 +1,4 @@
+org\springweb\service\impl\HelloServiceImpl.class
+org\springweb\service\HelloService.class
+org\springweb\controller\BaseController.class
+org\springweb\context\test\SpringContextMain.class

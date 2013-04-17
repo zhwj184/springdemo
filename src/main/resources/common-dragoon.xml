@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="GB2312"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd 
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+    default-autowire="byName">
+    
+     <aop:config proxy-target-class="true"></aop:config>
+    
+    <bean id="dragoon-service-interceptor" class="com.alibaba.dragoon.patrol.spring.DragoonMethodInterceptor">
+        <property name="profileType" value="SERVICE"/>
+    </bean>
+    <bean id="dragoon-service-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+        <property name="patterns">
+            <list>
+                <value>com.alibaba.china.industry.service.impl.*</value>
+                <value>com.alibaba.china.brand.common.impl.*</value>
+                <value>com.alibaba.china.brand.service.impl.*</value>
+                <value>com.alibaba.china.brand.sampleshow.impl.*</value>
+                <value>com.alibaba.china.brand.spucaigou.impl.*</value>
+                <value>com.alibaba.china.brand.*.*</value>
+            </list>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:advisor advice-ref="dragoon-service-interceptor" pointcut-ref="dragoon-service-pointcut"/>
+    </aop:config>
+
+</beans>
