@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.io.Resources;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
@@ -95,6 +96,12 @@ public class SpringContextDAOMain {
         session.update(data1);
         data3 = (Dataobject)session.get(Dataobject.class, 12);  
         System.out.println(data3);
+        //sessionÊÂÎñ
+        Transaction transaction = session.beginTransaction();
+        session.save(data1);
+        session.save(data3);     
+        transaction.commit();
+        
         session.close();  
 	}
 }
