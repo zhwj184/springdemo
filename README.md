@@ -5,6 +5,7 @@ spring3的IOC，AOP，JDBC，orm等各个模块的使用示例集锦，可以作
 
 在org.springweb.context.test包下
 1.IOC
+
     * spring框架设计理念（POJO化）
     * 1.IOC 概念，作用，优点 Donnot call me,we will call you.  beanfactory，applicationcontext（事件发布，国际化支持）
     * 2.注入方法 setter，construtor（参数太多，可变参数列表），接口注入  
@@ -16,6 +17,7 @@ spring3的IOC，AOP，JDBC，orm等各个模块的使用示例集锦，可以作
     * 8.IOC 应用场景，datasouce配置，线程池配置，
     * 9.工厂方法与 FactoryBean
     * 10 messagesource，propertyplaceholder
+    
 执行SpringContextIOCMain main函数
    
 
